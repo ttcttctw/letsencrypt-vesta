@@ -90,24 +90,29 @@ then
 fi
 
 #Create a temp directory
-TMPLOC=/var/tmp/ssl-$DOMAIN-$$
-mkdir $TMPLOC
+#TMPLOC=/var/tmp/ssl-$DOMAIN-$$
+#mkdir $TMPLOC
 
 #Copy the Let's Encrypt Certs into it, using Vesta naming conventions
-cp /etc/letsencrypt/live/$DOMAIN/cert.pem $TMPLOC/$DOMAIN.crt
-cp /etc/letsencrypt/live/$DOMAIN/privkey.pem $TMPLOC/$DOMAIN.key
-cp /etc/letsencrypt/live/$DOMAIN/chain.pem $TMPLOC/$DOMAIN.ca
+ln -sf /etc/letsencrypt/live/$DOMAIN/privkey.pem /usr/local/vesta/data/users/$USER/ssl/$DOMAIN.key
+ln -sf /etc/letsencrypt/live/$DOMAIN/cert.pem /usr/local/vesta/data/users/$USER/ssl/$DOMAIN.crt
+ln -sf /etc/letsencrypt/live/$DOMAIN/chain.pem /usr/local/vesta/data/users/$USER/ssl/$DOMAIN.ca
+ln -sf /etc/letsencrypt/live/$DOMAIN/fullchain.pem /usr/local/vesta/data/users/$USER/ssl/$DOMAIN.pem
+ln -sf /etc/letsencrypt/live/$DOMAIN/privkey.pem /home/$USER/conf/web/ssl.$DOMAIN.key
+ln -sf /etc/letsencrypt/live/$DOMAIN/cert.pem /home/$USER/conf/web/ssl.$DOMAIN.crt
+ln -sf /etc/letsencrypt/live/$DOMAIN/chain.pem /home/$USER/conf/web/ssl.$DOMAIN.ca
+ln -sf /etc/letsencrypt/live/$DOMAIN/fullchain.pem /home/$USER/conf/web/ssl.$DOMAIN.pem
 
 #Check if the site already has a cert
-HAS_CERT=`$VESTA_PATH/bin/v-get-web-domain-value $USER $DOMAIN SSL`
-if [[ $HAS_CERT == 'no' ]]
-then
+#HAS_CERT=`$VESTA_PATH/bin/v-get-web-domain-value $USER $DOMAIN SSL`
+#if [[ $HAS_CERT == 'no' ]]
+#then
     #Configure SSL and install the cert
-    $VESTA_PATH/bin/v-add-web-domain-ssl $USER $DOMAIN $TMPLOC
-else
+#    $VESTA_PATH/bin/v-add-web-domain-ssl $USER $DOMAIN $TMPLOC
+#else
     #Replace the existing cert with the new one
-    $VESTA_PATH/bin/v-change-web-domain-sslcert $USER $DOMAIN $TMPLOC
-fi
+#    $VESTA_PATH/bin/v-change-web-domain-sslcert $USER $DOMAIN $TMPLOC
+#fi
 
 #Remove the temp directory
-rm -rf /var/tmp/ssl-$DOMAIN-$$
+#rm -rf /var/tmp/ssl-$DOMAIN-$$
