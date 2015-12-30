@@ -54,9 +54,9 @@ of the following commands, or open a root shell with `sudo su -`.
 2. Create the "webroot" directory where Let's Encrypt will write the files needed for domain verification.  
     `mkdir -p /etc/letsencrypt/webroot`
 3. Symlink the Apache conf file in your Apache conf.d directory (this assumes the RedHat standard /etc/httpd/conf.d, adjust to your system as appropriate). This enables Apache to properly serve the validation files from the webroot directory above.  
-    `ln -s /usr/local/letsencrypt-vesta/letsencrypt.conf /etc/httpd/conf.d/letsencrypt.conf`
+    `ln -s /usr/local/letsencrypt-vesta/letsencrypt.conf /etc/apache2/conf.d/letsencrypt.conf`
 4. Restart Apache to pick up the configuration change  
-    `service httpd restart`
+    `service apache2 restart`
 5. Symlink letsencrypt-auto and letsencrypt-vesta in /usr/local/bin for easier access.  This allows them to be run without needing to know the full path to the programs.  
     `ln -s /usr/local/letsencrypt/letsencrypt-auto /usr/local/bin/letsencrypt-auto`  
     `ln -s /usr/local/bin/letsencrypt-vesta/letsencrypt-vesta /usr/local/bin/letsencrypt-vesta`
