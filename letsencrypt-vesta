@@ -5,6 +5,9 @@
 # This code is licensed under the MIT License.  See the LICENSE.md
 # file for details.
 #
+# Modified by Clark Chen
+# Error fix for Ubuntu + link all SSL together
+#
 # This script automates the process of requesting SSL certs through
 # Let's Encrypt for VestaCP sites.  Certificates are requested with
 # the primary domain as the certificate common name (CN) and all
@@ -69,7 +72,7 @@ fi
 
 #Get the list of aliases for the domain
 ALIASES=`$VESTA_PATH/bin/v-list-web-domains-alias $USER shell | grep $DOMAIN | cut -d " " -f2`
-if [[ "$ALIASES" != "" ]]
+if [[ "$ALIASES" != "NULL" ]]
 then
     DOMAIN_LIST="$DOMAIN,$ALIASES"
 else
